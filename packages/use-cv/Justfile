@@ -1,0 +1,31 @@
+PKG := "."
+
+help:
+  @just --list
+
+publish: build upload
+
+# Build, increment patch number and publish
+republish: patch build upload
+
+patch:
+  cd {{PKG}} && yarn version --patch
+
+# Publish to npm
+upload:
+  cd {{PKG}}/dist && npm publish --access=public
+  cd {{PKG}} && rm -drf dist
+
+# Build package into dist/, copying relevant files
+build: 
+  cd {{PKG}} && \
+  (rm -dr dist || :) && \
+  yarn run build
+  @just copy
+
+# Copy package.json, tsconfig.json and README.md to dist/
+copy:
+  cd {{PKG}} && \
+  cp package.json dist && \
+  cp tsconfig.json dist && \
+  cp README.md dist

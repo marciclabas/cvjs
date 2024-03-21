@@ -1,0 +1,20 @@
+{
+    "name": "use-cv",
+    "version": "2.1.2",
+    "description": "React + Typescript Hooks API for OpenCV.js",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "npx tsc -p tsconfig.json"
+    },
+    "author": "Marcel Claramunt",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/react": "^18.2.38",
+        "@types/react-dom": "^18.2.17",
+        "typescript": "^5.3.2"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
+}
