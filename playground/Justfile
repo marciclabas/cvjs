@@ -1,0 +1,33 @@
+dev:
+  powershell.exe /c start firefox localhost:5173
+  yarn dev --host
+
+build:
+  yarn run build
+
+preview:
+  powershell.exe /c start firefox localhost:4173
+  yarn preview --host
+
+build-preview: build preview
+
+install-ramda:
+  yarn add ramda --dev @types/ramda
+
+# Create a new page
+add PAGE:
+  #!/bin/bash
+  mkdir src/pages/{{titlecase(PAGE)}} || (echo "{{titlecase(PAGE)}} already exists" && exit 0)
+  
+  LAST_IMPORT=$(grep -n '^import' src/App.tsx | tail -1 | cut -d : -f 1)
+  sed -i "$((LAST_IMPORT+1)) i import {{titlecase(PAGE)}} from './pages/{{titlecase(PAGE)}}'" src/App.tsx | head
+
+  PAGES=$(grep -n 'PLAYGROUND_PAGES' src/App.tsx | head -1 | cut -d : -f 1)
+  sed -i "$((PAGES+1)) i\  {{lowercase(PAGE)}}: <{{titlecase(PAGE)}} />," src/App.tsx | head
+
+  echo "export function {{titlecase(PAGE)}}() {" > src/pages/{{titlecase(PAGE)}}/{{titlecase(PAGE)}}.tsx
+  echo -e "  return (\n    <></>\n  )\n}\nexport default {{titlecase(PAGE)}}" >> src/pages/{{titlecase(PAGE)}}/{{titlecase(PAGE)}}.tsx
+
+  echo "import {{titlecase(PAGE)}} from './{{titlecase(PAGE)}}.tsx'" > src/pages/{{titlecase(PAGE)}}/index.ts
+  echo "export default {{titlecase(PAGE)}}" >> src/pages/{{titlecase(PAGE)}}/index.ts
+

@@ -1,0 +1,35 @@
+{
+  "name": "mobile-camera",
+  "version": "1.0.1",
+  "description": "Tools for dealing with cameras in mobile browsers",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moveread/REPO.git"
+  },
+  "author": "Marcel Claramunt",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "",
+    "@typescript-eslint/parser": "",
+    "eslint": "",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": ""
+  },
+  "dependencies": {
+    "@haskellian/arrays": "^1.0.10",
+    "@haskellian/async": "^1.0.1",
+    "@haskellian/either": "^1.0.1",
+    "opencv-tools": "^1.2.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
