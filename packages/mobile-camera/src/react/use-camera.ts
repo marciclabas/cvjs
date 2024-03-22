@@ -1,60 +1,44 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useCapture, CaptureConfig, Status, Errored, Loaded } from "./use-capture.js"
-import { ControlledProps, View } from "./Camera.js"
 import { io } from "opencv-tools"
+import { MutableRefObject, Ref, useCallback, useRef, useState } from "react"
+import { VideoConfig, useVideo } from "./use-video.js"
 
-export type Hook = {
-  /** Props to be passed to `<Camera {...cameraProps}>` */
-  cameraProps: ControlledProps
-  status: Status
-  /** State of the UI:
-   * - `'default'`: starting view (unless `config.autoStart`) and on `cancel()`
-   * - `'loading'`: whilst asking permission for the camera and loading the video
-   * - `'camera'`: streaming from the user's camera
-   * - `'captured'`: snapshot taken with `take()`
-   * - `'error'`: if the camera isn't accessible or denied (also if the user denies after starting successfully)
-   */
-  view: View
-  /** Request permission (if not yet granted) and start streaming onto `video` */
-  start(): Promise<Errored|Loaded>
-  /** Show image onto `canvas` and extract a `Blob` from it */
-  take(format?: io.Format): Promise<Blob|null>
-  /** Sets `view` to `'camera'` (if `status.status === 'loaded'`) */
+export type CameraHook = {
+  ref: Ref<HTMLVideoElement>
+  state: 'playing' | 'paused'
+  take(): Promise<Blob|null>
   retake(): void
-  /** Sets `view` to `'default'` */
-  cancel(): void
 }
 
-export type CameraConfig = Omit<CaptureConfig, 'onStop'> & {
-  /** Defaults to `false` */
-  autoStart?: boolean
+export type CameraConfig = {
+  format?: io.Format
+  log?: Console['log']
 }
 
-export function useCamera(config?: CameraConfig): Hook {
+export function useCamera(stream: MediaStream | null, config?: CameraConfig): CameraHook {
 
-  const [view, setView] = useState<View>(config?.autoStart ? 'loading' : 'default')
-  const { canvasRef, videoRef, start: startCapture, take: takeCapture, status } = useCapture({
-    ...config, onStop: () => setView('error')
-  })
+  const log = useCallback((...xs) => config?.log?.('[useCamera]', ...xs), [config?.log])
 
-  const start = useCallback(async () => {
-    setView('loading')
-    const res = await startCapture()
-    setView(res.status === 'error' ? 'error' : 'camera')
-    return res
+  const [state, setState] = useState<CameraHook['state']>('playing')
+  const video = useVideo(stream, { autoplay: true, log })
+
+  const take = useCallback(async () => {
+    video.pause()
+    if (video.video.current) {
+      log('Taking picture')
+      setState('paused')
+      const blob = await io.writeBlob(video.video.current)
+      log(...(blob ? ['Picture taken:', blob] : ['Error taking picture']))
+      return blob
+    }
+    log('Invalid ref, unable to take picture')
+    return null
   }, [])
 
-  const take = useCallback((format: io.Format) => { setView('captured'); return takeCapture(format)}, [])
-  const cancel = useCallback(() => setView('default'), [])
-  const retake = useCallback(() => { if (status.status === 'loaded') setView('camera') }, [])
+  const retake = useCallback(() => {
+    log('Retaking image')
+    video.play()
+    setState('playing')
+  }, [])
 
-  useEffect(() => {
-    if (config?.autoStart)
-      start()
-  }, [config?.autoStart])
-
-  return {
-    cameraProps: { canvasRef, videoRef, view },
-    status, view, start, take, cancel, retake,
-  }
+  return { ref: video.ref, take, retake, state }
 }

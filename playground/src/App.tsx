@@ -2,8 +2,10 @@ import { Button, VStack } from "@chakra-ui/react"
 import { RouteObject, useNavigate, useRoutes } from "react-router-dom";
 import Usecamera from './pages/Usecamera'
 import Permissions from './pages/Permissions'
+import Usestream from './pages/Usestream'
 
 const PLAYGROUND_PAGES: Record<string, JSX.Element> = {
+  usestream: <Usestream />,
   permissions: <Permissions />,
   usecamera: <Usecamera />,
 }
