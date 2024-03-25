@@ -31,17 +31,14 @@ export function useSafeCamera(stream: StreamHook, config?: SafeCameraConfig): Sa
   const camera = useCamera(stream.status === 'loaded' ? stream.stream : null, config)
 
   const view = useMemo((): View => {
-    switch (stream.status) {
-      case 'error':
-        return 'error'
-      case 'loaded':
-        return desiredView
-      case 'loading':
-        return 'loading'
-      case 'not-started':
-        return 'default'
-    }
+    if (desiredView === 'camera' && stream.status !== 'loaded')
+      return stream.status === 'not-started'
+        ? 'error'
+        : stream.status
+    return desiredView
   }, [desiredView, stream.status])
+
+  useEffect(() => console.log('Desired view', desiredView, 'View:', view), [view])
 
   const take = useCallback(() => {
     setView('captured')

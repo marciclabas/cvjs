@@ -1,8 +1,13 @@
 {
     "name": "use-cv",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "description": "React + Typescript Hooks API for OpenCV.js",
     "main": "dist/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/moveread/cvjs.git",
+        "directory": "packages/use-cv"
+    },
     "scripts": {
         "build": "npx tsc -p tsconfig.json"
     },
