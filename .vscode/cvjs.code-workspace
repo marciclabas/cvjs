@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    },
+    {
+      "path": "../packages/mobile-camera"
+    },
+    {
+      "path": "../playground/src/pages"
+    }
+  ]
+}

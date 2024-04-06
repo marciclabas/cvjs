@@ -27,7 +27,6 @@ export function show(img: ImageData | SizedSource, canvas: HTMLCanvasElement | O
     return false
   const width = (img as HTMLVideoElement).videoWidth ?? img.width;
   const height = (img as HTMLVideoElement).videoHeight ?? img.height;
-  console.log('Size:', width, height)
   canvas.width = width
   canvas.height = height
   if (img instanceof ImageData)

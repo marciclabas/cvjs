@@ -1,5 +1,4 @@
 dev:
-  powershell.exe /c start firefox localhost:5173
   yarn dev --host
 
 build:

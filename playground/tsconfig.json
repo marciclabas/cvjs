@@ -21,9 +21,8 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "mobile-camera/react": ["/home/m4rs/mr-github/lib/js/cvjs/packages/mobile-camera/src/react"],
-      "mobile-camera": ["/home/m4rs/mr-github/lib/js/cvjs/packages/mobile-camera/src"],
-      // "opencv-tools": ["/home/m4rs/mr-github/lib/js/cvjs/packages/opencv-tools/src/index.ts"]
+      "opencv-tools/workers/rotate": ["/home/m4rs/mr-github/lib/js/cvjs/packages/opencv-tools/src/workers/rotate/index.ts"],
+      "opencv-tools": ["/home/m4rs/mr-github/lib/js/cvjs/packages/opencv-tools/src/index.ts"],
     }
   },
   "include": ["src", "../packages/mobile-camera/src/react/use-stream.ts"],
