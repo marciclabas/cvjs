@@ -1,4 +1,3 @@
-import { readBlob } from "./io.js"
 
 /** Tries to create an `OffscreenCanvas`, defaults to `document.createElement('canvas')` if not available */
 export function getCanvas(width: number, height: number): OffscreenCanvas | HTMLCanvasElement {

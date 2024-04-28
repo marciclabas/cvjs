@@ -1,6 +1,6 @@
 {
   "name": "opencv-tools",
-  "version": "1.2.8",
+  "version": "1.2.11",
   "description": "OpenCV tools: perspective correcting, rotating, IO, web workers.",
   "type": "module",
   "scripts": {
