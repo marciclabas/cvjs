@@ -40,7 +40,7 @@ const outData = await io.toData(mat)
 
 ### Perspective Correction
 
-> **Requiers installing a peer dep: `@haskellian/async`**
+> **Requires installing a peer dep: `@haskellian/async`**
 
 ```
 yarn add @haskellian/async
